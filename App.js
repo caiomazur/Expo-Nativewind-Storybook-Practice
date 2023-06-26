@@ -1,16 +1,34 @@
 import { StatusBar } from "expo-status-bar";
 import { useState, useCallback } from "react";
+import { Text, View, Alert, Linking } from "react-native";
+
+import MainTitle from "./components/MainTitle";
+import MainImage from "./components/MainImage";
+import TextInputComponent from "./components/TextInputComponent";
 import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  Button,
-  Alert,
-  Switch,
-  Linking,
-} from "react-native";
+  StyledMoreInfoPressable,
+  StyledClickMePressable,
+} from "./components/Pressables";
+import SwitchComponent from "./components/SwitchComponent";
+
+import Constants from "expo-constants";
+
+import { NativeWindStyleSheet } from "nativewind";
+
+NativeWindStyleSheet.setOutput({
+  default: "native",
+});
+
+// Storybook Configuration:
+// Default to rendering your app
+let AppEntryPoint = App;
+
+// Render Storybook if storybookEnabled is true
+if (Constants.expoConfig.extra.storybookEnabled === "true") {
+  AppEntryPoint = require("./.storybook").default;
+}
+
+export default AppEntryPoint;
 
 // URL for the Trilobite Wikipedia page
 const trilobiteURL = "https://en.wikipedia.org/wiki/Trilobite";
@@ -32,57 +50,64 @@ const OpenURLButton = ({ url, children }) => {
   }, [url]);
 
   return (
-    <View style={styles.buttonContainer}>
-      <Button title={children} onPress={handlePress} />
-    </View>
+    <StyledMoreInfoPressable
+      className="rounded-full w-32 my-2 bg-white text-center py-3"
+      onPress={handlePress}
+    >
+      <Text className="text-cyan-900 text-base">More Info:</Text>
+    </StyledMoreInfoPressable>
   );
 };
 
-export default function App() {
-  // State for the input text
-  const [text, onChangeText] = useState("");
+export function App() {
   // State for the switch value
   const [isEnabled, setIsEnabled] = useState(false);
+  const [text, onChangeText] = useState("");
 
   // Callback function for toggling the switch
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.mainTitle}>Welcome to Trilobite app!</Text>
+    <View className="flex-1 items-center justify-center bg-cyan-900">
+      <MainTitle
+        className="text-5xl text-teal-100 my-6"
+        title="Welcome to Trilobite app!"
+      />
 
-      <Image
-        style={styles.mainImage}
+      <MainImage
+        className="w-64 h-64 rounded-lg border-teal-400 border-2 shadow-teal-500 shadow-2xl my-5"
         source={{
           uri: "https://p.turbosquid.com/ts-thumb/Cp/5GPmGI/BYJcG9i2/trilobite_thumbnail/jpg/1597330246/600x600/fit_q87/86c48f0a43b6511d683c9ea549228131aceca1e0/trilobite_thumbnail.jpg",
         }}
       />
 
-      <TextInput
-        style={styles.input}
+      <TextInputComponent
+        className="text-xl text-teal-100 my-4 text-center border-solid border-2 border-teal-400 rounded-lg"
         onChangeText={onChangeText}
         value={text}
         placeholder="Name your Trilobite:"
       />
 
-      {/* Button component for opening the Trilobite Wikipedia page */}
-      <OpenURLButton url={trilobiteURL}>More about Trilobites</OpenURLButton>
+      <OpenURLButton url={trilobiteURL}></OpenURLButton>
 
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Press me"
-          onPress={() => Alert.alert("This Alert works on mobile")}
-        />
-      </View>
+      <StyledClickMePressable
+        className="rounded-full w-28 my-3 py-2 bg-cyan-100 text-center"
+        title="Press me"
+        onPress={() => Alert.alert("This Alert works on mobile")}
+      >
+        <Text className="text-cyan-900 text-base">Click Me!</Text>
+      </StyledClickMePressable>
 
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Press me"
-          onPress={() => alert("This alert works on web")}
-        />
-      </View>
+      <StyledClickMePressable
+        className="rounded-full w-28 my-3  py-2 bg-cyan-100 text-center"
+        title="Press me"
+        onPress={() => alert("This alert works on web")}
+      >
+        <Text className="text-cyan-900 text-base">Click Me!</Text>
+      </StyledClickMePressable>
 
-      <Switch
+      <SwitchComponent
+        className="my-4"
         trackColor={{ false: "#767577", true: "#81b0ff" }}
         thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
         ios_backgroundColor="#3e3e3e"
@@ -95,37 +120,4 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#001C30",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  mainTitle: {
-    color: "#DAFFFB",
-    marginBottom: 25,
-    fontSize: 40,
-  },
-  mainImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "#64CCC5",
-    margin: 15,
-  },
-  input: {
-    color: "#DAFFFB",
-    borderWidth: 2,
-    borderColor: "#64CCC5",
-    textAlign: "center",
-    borderRadius: 5,
-    margin: 10,
-    fontSize: 16,
-  },
-  buttonContainer: {
-    margin: 10,
-    width: 100,
-  },
-});
+//export {default} from './.storybook';
