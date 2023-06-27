@@ -1,26 +1,25 @@
 import React from "react";
-import { Switch } from "react-native-web";
+import { Switch, View, Text } from "react-native-web";
 import { styled } from "nativewind";
+import classNames from "classnames";
 
 const StyledSwitch = styled(Switch);
+const StyledView = styled(View);
+const StyledText = styled(Text);
 
-function SwitchComponent({
-  className,
-  trackColor,
-  thumbColor,
-  ios_backgroundColor,
-  onValueChange,
-  value,
-}) {
+function SwitchComponent({ isEnabled, onValueChange, label }) {
   return (
-    <StyledSwitch
-      className={className}
-      trackColor={trackColor}
-      thumbColor={thumbColor}
-      ios_backgroundColor={ios_backgroundColor}
-      onValueChange={onValueChange}
-      value={value}
-    />
+    <StyledView>
+      <StyledText>{label}</StyledText>
+      <StyledSwitch
+        className="my-4"
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        ios_backgroundColor="#3e3e3e"
+        onChange={onValueChange}
+        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        value={isEnabled}
+      />
+    </StyledView>
   );
 }
 

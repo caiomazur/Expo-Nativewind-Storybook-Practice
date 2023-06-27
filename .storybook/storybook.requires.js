@@ -47,7 +47,12 @@ try {
 
 const getStories = () => {
   return {
-    "./.storybook/stories/TextInput/TextInputComponent.stories.js": require("./stories/TextInput/TextInputComponent.stories.js"),
+    "./.storybook/stories/ClickMePressable.stories.js": require("./stories/ClickMePressable.stories.js"),
+    "./.storybook/stories/MainImage.stories.js": require("./stories/MainImage.stories.js"),
+    "./.storybook/stories/MainTitle.stories.js": require("./stories/MainTitle.stories.js"),
+    "./.storybook/stories/MoreInfoPressable.stories.js": require("./stories/MoreInfoPressable.stories.js"),
+    "./.storybook/stories/SwitchComponent.stories.js": require("./stories/SwitchComponent.stories.js"),
+    "./.storybook/stories/TextInputComponent.stories.js": require("./stories/TextInputComponent.stories.js"),
   };
 };
 
